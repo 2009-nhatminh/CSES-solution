@@ -38,7 +38,7 @@ void solve() {
 }
 #define name "TASK" 
 int main(){
-    fast 
+    
     if(fopen(name".INP","r")) {
         freopen (name".INP","r",stdin);
         freopen (name".OUT","w",stdout);
