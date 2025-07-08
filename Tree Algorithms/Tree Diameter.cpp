@@ -15,37 +15,45 @@ using namespace std ;
 #define ALL(a) (a).begin() , (a).end() 
 #define rep( i , a , b) for (int i = (a) ; i < (b) ; i ++ )
 #define ld long double
-const int maxn = 2 * 1e5 ;
+const int maxn = 2 * 1e5;
 #define debug 0
 #define oo (ll)(1e18)
 
 
-int n ;
-int a[maxn+3] ;
 vector < int > G[maxn+3] ;
 ll d[maxn+3] ;
-void dfs ( int u) {
-    d[u] = 1 ;
+ll fir_max[maxn+3], sec_max[maxn+3];
+void dfs ( int u , int par ) {
+
     for (auto v : G[u]){
-        if(!d[v]) dfs(v) ;
-        d[u] += d[v] ;
-        // cout << u << ' ' << v << ' ' << d[u] << '\n' ;
+        if (v == par ) continue;
+        dfs ( v,  u) ;
+            ll val = d[v] + 1 ;
+            // cout << v << ' ' << d[v] << '\n'; 
+            if ( val > fir_max[u]) {
+                sec_max[u]= fir_max[u]; 
+                fir_max[u]= val ;
+            }
+            else if ( sec_max[u]< val ){
+                sec_max[u]= val ;
+
+            }
+            d[u] = max ( d[u] , 1 + d[v] ) ;
     }
 }
 void input(){
-    cin >> n ;
-    FOR ( i , 2 , n ) cin >> a[i] ;
-    
 }
 void solve() {
-    FOR ( i , 2 , n ) {
-        int v = i ;
-        int u = a[i] ;
+    int n ; cin >> n ;
+    rep ( i , 1 , n ){
+        int u , v ; cin >> u >> v;
         G[u].pb ( v ) ;
-
+        G[v].pb ( u ) ;
     }
-    dfs ( 1 ) ;
-    FOR ( i , 1 , n ) cout << d[i] - 1 << ' ' ;
+    dfs ( 1 , - 1 ) ;
+    ll ans = 0 ;
+    FOR ( i , 1 , n) ans = max ( ans , fir_max[i] + sec_max[i]) ;
+    cout << ans; 
 }
 #define name "TASK" 
 int main(){
