@@ -15,47 +15,36 @@ using namespace std ;
 #define ALL(a) (a).begin() , (a).end() 
 #define rep( i , a , b) for (int i = (a) ; i < (b) ; i ++ )
 #define ld long double
-const int maxn = 2 * 1e5 ;
+const int maxn = 2 *1e5 ;
 #define debug 0
 #define oo (ll)(1e18)
 
-ll d[maxn+3] , Distance[maxn+3] ;
-
-vector < int > G[maxn+3] ;
 
 
-int n ; 
+int n , q ;
+int p[maxn+3][23] ;
 void input(){
-    cin >> n ;
-    FOR ( i , 1 , n - 1) {
-        int u , v ; cin >> u >> v ;
-        G[u].pb ( v ) ;
-        G[v].pb ( u );
-
-    }
-}
-ll ans[maxn+3] ;
-void dfs ( int u , int par ) {
-    d[u] = 1 ;
-
-    for (auto v : G[u]){
-        if ( v == par ) continue; 
-        if (!d[v]) dfs ( v, u); 
-        d[u] += d[v] * 2 ;
-    }
-}
-void dfs_2 ( int u , int par ){
-    for (auto v : G[u]){
-        if ( v == par ) continue; 
-        ans[v] = d[v] - 1 + d[u] - d[v] ;
-        dfs_2 ( v , u ); 
-
-    }
+    cin >> n >> q ;
+    FOR ( i , 2 , n ) cin >> p[i][0] ;
 }
 void solve() {
-    dfs ( 1 ,  -1 ) ;
-    dfs_2 ( 1 , -1 ) ;
-    FOR ( i , 1 , n ) cout << ans[i] << ' ' ;
+    // lca ;
+    static const int max_log = 19 ;
+
+    FOR ( j , 1 , max_log)  
+    FOR ( i , 1 , n )    {
+        p[i][j] = p[p[i][j-1]][j-1] ;
+    }
+    // int q;  cin >> q;
+    while ( q -- ){
+        int u , k ; cin >> u >> k ;
+        FOR ( i , 0 , max_log) {
+            if ( ( k >> i ) & 1 ) {
+                u = p[u][i] ;
+            }
+        }
+        cout << ((!u)?-1:u) << ' ';
+    }
 }
 #define name "TASK" 
 int main(){

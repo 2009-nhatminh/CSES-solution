@@ -15,47 +15,56 @@ using namespace std ;
 #define ALL(a) (a).begin() , (a).end() 
 #define rep( i , a , b) for (int i = (a) ; i < (b) ; i ++ )
 #define ld long double
-const int maxn = 2 * 1e5 ;
+const int maxn = 2 *1e5 ;
 #define debug 0
 #define oo (ll)(1e18)
+static const int max_log = 20 ;
+int n , q , h[maxn+3] , up[maxn+3][23];
 
-ll d[maxn+3] , Distance[maxn+3] ;
 
 vector < int > G[maxn+3] ;
+void dfs ( int u , int par = - 1 ){
+    for (auto v : G[u]){
+        if ( v == par ) continue; 
+        up[v][0] = u ;
+        h[v] = h[u] + 1 ;
+        FOR ( i , 1 , max_log) up[v][i] = up[up[v][i-1]][i-1] ;
+        dfs ( v , u ) ;
+    }
+}
+int lca ( int u , int v ) {
+    if ( h[u] < h[v]) swap ( u , v) ;
+    int k = h[u] - h[v] ;
+    FOR ( i , 0 , max_log) {
+        if ( ( k >> i ) & 1) {
+            u = up[u][i] ; 
+        }
+    }
+    if ( u == v ) return u ;
+    FORD ( i , max_log , 0 ) {
+        if ( up[u][i] != up[v][i]) {
+            u = up[u][i] ;
+            v = up[v][i] ;
+        }
+    }
+    return up[u][0] ;
 
-
-int n ; 
+}
 void input(){
-    cin >> n ;
-    FOR ( i , 1 , n - 1) {
-        int u , v ; cin >> u >> v ;
+    cin >> n >> q ;
+    FOR ( i ,2 , n ) {
+        int u , v ; cin >> u >> v; 
         G[u].pb ( v ) ;
-        G[v].pb ( u );
-
+        G[v].pb ( u ) ;
     }
-}
-ll ans[maxn+3] ;
-void dfs ( int u , int par ) {
-    d[u] = 1 ;
-
-    for (auto v : G[u]){
-        if ( v == par ) continue; 
-        if (!d[v]) dfs ( v, u); 
-        d[u] += d[v] * 2 ;
-    }
-}
-void dfs_2 ( int u , int par ){
-    for (auto v : G[u]){
-        if ( v == par ) continue; 
-        ans[v] = d[v] - 1 + d[u] - d[v] ;
-        dfs_2 ( v , u ); 
-
-    }
+    
 }
 void solve() {
-    dfs ( 1 ,  -1 ) ;
-    dfs_2 ( 1 , -1 ) ;
-    FOR ( i , 1 , n ) cout << ans[i] << ' ' ;
+    dfs ( 1 ) ;
+    while ( q -- ) {
+        int u , v ; cin >> u >> v ;
+        cout << h[u] + h[v] - 2 * h[lca(u,v)] << ' ';
+    }
 }
 #define name "TASK" 
 int main(){
