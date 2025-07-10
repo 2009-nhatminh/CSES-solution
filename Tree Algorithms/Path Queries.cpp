@@ -19,87 +19,76 @@ const int maxn = 2 * 1e5 ;
 #define debug 0
 #define oo (ll)(1e18)
 
-ll f[maxn+3] ;
-int mark[maxn+3] ;
-int d[maxn+3] ;
-int cnt = 1;
-int n , q ;
-vector < int > G[maxn+3] ;
-ll v[maxn+3] , a[maxn+3] ;
-void update ( int idx , ll val ) {
-    // idx ++ ;
-    while ( idx <= n ) {
-        f[idx] += val ;
-        idx += ( idx ) & ( -idx ) ;
-    }
-}
-ll get ( int idx ){
-    ll res = 0 ;
-    while (idx){
-        res += f[idx] ;
-        idx -= idx & ( - idx ) ;
-    } return res ;
-}
-#define db 0
-void reaval_ai ( int i , ll val ) {
-    ll compar = val - a[i] ;
-    
-    a[i] = val ;
-    update ( mark[i] , compar ) ;
 
 
-}
-void dfs_make_mark ( int u , int par ){
-    mark[u] = cnt ++ ;
-    d[u] = 1 ;
-    for (auto v : G[u]) {
-        
+int a[maxn+ 3 ] ;
+vector < int > G[maxn +3 ] ;
+int n , q ; 
+int in[maxn +3 ] , out[maxn +3 ] ;
+int cnt = 1 ;
+ll f[ ( maxn << 1 )+ 3 ] ;
+void dfs ( int u , int par ) {
+    in[u] = cnt ++ ;
+    for (auto v : G[u]){
         if ( v == par ) continue; 
-        
-        dfs_make_mark( v , u ) ;
-        d[u] += d[v] ;
-
+        dfs ( v , u ) ;
     }
+    out[u] = cnt ++ ;
+
+}
+int sized = 0 ;
+
+void update ( int i , ll val ) {
+    while ( i <= sized ) {
+        f[i] += val ;
+        i += i & -i ;
+    }
+}
+ll get ( int i ) {
+    ll d = 0 ; while ( i > 0 ) { d += f[i] ; i -= i & -i ; } return d ;
+
 }
 void input(){
-   cin >> n >> q ;
-
-   FOR ( i , 1 , n ) {
-        cin >> a[i] ;
-   }
-   FOR ( i , 2 , n ) {
+    cin >> n >> q ;
+    sized = n * 2 ;
+    FOR ( i , 1 , n ) cin >> a[i] ;
+    FOR ( i , 2 , n ) {
         int u , v ; cin >> u >> v ;
-        G[u].pb (  v ) ;
-        G[v].pb (  u ) ;
-   }
+        G[u].pb ( v ) ;
+        G[v].pb ( u ) ;
+        // after sufting internet about euler tour , i finally take in this hehe
+
+    }
+}
+#define db 0
+void Minh_le(){
+    int pl ; cin >> pl ;
+    if ( pl == 1 ) {
+        ll i , x ;
+        cin >> i >> x ;
+        x -= a[i] ;
+        a[i] += x ;
+        update ( in[i] , x ) ;
+        update ( out[i] , -x ) ;  
+        return ; 
+    }
+    int u ;
+    cin >> u ;
+    if ( db) {
+        cout << "range of = " << out[u] -1 << ' ' <<  in[u] << '\n' ;
+    }
+    cout << get ( out[u] - 1 )  << '\n' ;
 }
 void solve() {
-    dfs_make_mark ( 1 , -1 ) ;
+    dfs ( 1 , -1 ) ;
     FOR ( i , 1 , n ) {
-         update ( mark[i] , a[i] ) ;
+        update ( in[i] , a[i] ) ;
     }
-    ll S_ALL = get ( n ) ; 
-    cerr << "sum ALL = " << S_ALL << '\n' ;
-    if (db) {
-        FOR ( i , 1 , n ) {
-            cout << "m & val" << ' ' << mark[i] << ' ' << a[i] << '\n' ;
-        }
-
+    FOR ( i , 1 , n ) {
+        update ( out[i] , -a[i] ) ;
     }
     while ( q -- ) {
-        int pl ; cin >> pl ;
-        if ( pl == 1 ) {
-            ll id , val ; cin >> id >> val ;
-            reaval_ai ( id , val ) ;
-        } 
-        else {
-            int u ; cin >> u ;
-            int fir_id = mark[u] + d[u] - 1 ;
-            ll res = get (fir_id ) - get ( mark[u] - 1 ) ;
-
-            if (db) cout << "u - > v" << ' ' << fir_id << ' ' << mark[u] -1 <<  ' ' << d[u] << '\n' ;
-            cout << S_ALL - res << '\n' ; 
-        }
+        Minh_le () ; 
     }
 }
 #define name "TASK" 
