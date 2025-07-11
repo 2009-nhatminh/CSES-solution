@@ -15,28 +15,25 @@ using namespace std ;
 #define ALL(a) (a).begin() , (a).end() 
 #define rep( i , a , b) for (int i = (a) ; i < (b) ; i ++ )
 #define ld long double
-const int maxn = 2 * 1e5 ;
+const int maxn = 1e3;
 #define debug 0
 #define oo (ll)(1e18)
 
 
 
-int n ; 
-int a[maxn+3] ;
+
 
 void input(){
-    cin >> n ; 
-    FOR ( i , 1 , n ) cin >> a[i] ;
 }
 void solve() {
+    ll n; cin >> n;
     ll d = 0 ;
-    FOR ( i , 2 , n ) {
-        d += max ( a[i-1] - a[i] , 0 ) ;
-        
-        a[i] = max ( a[i-1] , a[i])  ;
+    while ( n ){
+        d += ( n / 5 ) ;
+        n /= 5 ; 
+
     }
-  
-    cout << d ;
+    cout << d;
 }
 #define name "TASK" 
 int main(){

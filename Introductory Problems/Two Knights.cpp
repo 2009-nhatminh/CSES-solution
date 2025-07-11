@@ -7,7 +7,7 @@ using namespace std ;
 #define fir first 
 #define sec second 
 #define piint pair < int , int >
-#define FOR( i , a , b ) for (int i = (a) , _b = (b) ; i <= _b ; i ++ )  
+#define FOR( i , a , b ) for (ll i = (a) , _b = (b) ; i <= _b ; i ++ )  
 #define FORD( i , a , b ) for (int i = (a) , _b = (b) ; i >= _b ; i -- )  
 
 #define pb push_back 
@@ -15,28 +15,18 @@ using namespace std ;
 #define ALL(a) (a).begin() , (a).end() 
 #define rep( i , a , b) for (int i = (a) ; i < (b) ; i ++ )
 #define ld long double
-const int maxn = 2 * 1e5 ;
+const int maxn = 1e3;
 #define debug 0
 #define oo (ll)(1e18)
 
 
 
-int n ; 
-int a[maxn+3] ;
 
+int a[] = { 0 , 0, 6 , 28 , 96 } ;
 void input(){
-    cin >> n ; 
-    FOR ( i , 1 , n ) cin >> a[i] ;
 }
 void solve() {
-    ll d = 0 ;
-    FOR ( i , 2 , n ) {
-        d += max ( a[i-1] - a[i] , 0 ) ;
-        
-        a[i] = max ( a[i-1] , a[i])  ;
-    }
-  
-    cout << d ;
+
 }
 #define name "TASK" 
 int main(){
@@ -45,8 +35,18 @@ int main(){
         freopen (name".INP","r",stdin);
         freopen (name".OUT","w",stdout);
     }
-    input() ;
-    solve() ;
+    int n ; cin >> n ;
+    // cout << 0 << '\n'; 
+    FOR ( i , 1 , n ) {
+
+        if ( i <= 3 ) {
+            cout << a[i] << '\n' ;
+            continue; 
+        }
+        ll larg = i * 1ll * 1ll * i ;
+        ll ans = ( larg * ( larg - 1 ) / 2 ) - 4 * ( i - 1 ) * ( i - 2 ) ;
+        cout << ans << '\n' ;
+    }
     cerr << "\nTIME: = " << (1.0*clock())/CLOCKS_PER_SEC << '\n';
     return(0) ;
 }

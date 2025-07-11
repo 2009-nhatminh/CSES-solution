@@ -15,28 +15,22 @@ using namespace std ;
 #define ALL(a) (a).begin() , (a).end() 
 #define rep( i , a , b) for (int i = (a) ; i < (b) ; i ++ )
 #define ld long double
-const int maxn = 2 * 1e5 ;
+const int maxn = 1e3;
 #define debug 0
 #define oo (ll)(1e18)
 
 
 
-int n ; 
-int a[maxn+3] ;
+
 
 void input(){
-    cin >> n ; 
-    FOR ( i , 1 , n ) cin >> a[i] ;
 }
 void solve() {
-    ll d = 0 ;
-    FOR ( i , 2 , n ) {
-        d += max ( a[i-1] - a[i] , 0 ) ;
-        
-        a[i] = max ( a[i-1] , a[i])  ;
+    ll a,b; cin >> a >> b;
+    if (((a==b&&a%3==0)||(a+b)%3==0)&&a<=2*b&&b<=2*a) {
+        cout << "YES" << '\n';
     }
-  
-    cout << d ;
+    else cout << "NO" << '\n';
 }
 #define name "TASK" 
 int main(){
@@ -46,6 +40,8 @@ int main(){
         freopen (name".OUT","w",stdout);
     }
     input() ;
+    int t ; cin >> t ;
+    while ( t -- ) 
     solve() ;
     cerr << "\nTIME: = " << (1.0*clock())/CLOCKS_PER_SEC << '\n';
     return(0) ;

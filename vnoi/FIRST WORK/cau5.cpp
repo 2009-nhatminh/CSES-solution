@@ -21,24 +21,32 @@ const int maxn = 2 * 1e5 ;
 
 
 
-int n ; 
-int a[maxn+3] ;
+int check[maxn+3] ;
 
+int f[maxn+3] ;
+pair < int , int > a[maxn+3] , b[maxn+3] ;
 void input(){
-    cin >> n ; 
-    FOR ( i , 1 , n ) cin >> a[i] ;
 }
-void solve() {
-    ll d = 0 ;
-    FOR ( i , 2 , n ) {
-        d += max ( a[i-1] - a[i] , 0 ) ;
-        
-        a[i] = max ( a[i-1] , a[i])  ;
+void solve() {  
+    int n ; cin >> n ;
+    FOR ( i , 1 , n ) {
+        cin >> a[i].fir ;
     }
-  
-    cout << d ;
+    FOR ( i , 1 , n ) {
+        cin >> a[i].sec ;
+    }
+    memset( f , 0 , sizeof(f));
+    sort ( a + 1 , a + n + 1 ) ;
+    int d = 0 ;
+    FOR ( i , 1 , n ) {
+        int id = lower_bound ( f + 1 , f + d + 1 , a[i].sec )  - f ;
+        d = max ( d , id ); 
+        f[id] = a[i].sec ;
+    }
+    cout << d << '\n' ;
+
 }
-#define name "TASK" 
+#define name "cau5" 
 int main(){
     fast 
     if(fopen(name".INP","r")) {
@@ -46,7 +54,10 @@ int main(){
         freopen (name".OUT","w",stdout);
     }
     input() ;
-    solve() ;
+    int t ; cin >> t ;
+    while ( t -- ) { 
+        solve() ;
+    }
     cerr << "\nTIME: = " << (1.0*clock())/CLOCKS_PER_SEC << '\n';
     return(0) ;
 }

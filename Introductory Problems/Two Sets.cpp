@@ -8,35 +8,50 @@ using namespace std ;
 #define sec second 
 #define piint pair < int , int >
 #define FOR( i , a , b ) for (int i = (a) , _b = (b) ; i <= _b ; i ++ )  
-#define FORD( i , a , b ) for (int i = (a) , _b = (b) ; i >= _b ; i -- )  
+#define FORD( i , a , b ) for (ll i = (a) , _b = (b) ; i >= _b ; i -- )  
 
 #define pb push_back 
 #define str string 
 #define ALL(a) (a).begin() , (a).end() 
 #define rep( i , a , b) for (int i = (a) ; i < (b) ; i ++ )
 #define ld long double
-const int maxn = 2 * 1e5 ;
+const int maxn = 1e3;
 #define debug 0
 #define oo (ll)(1e18)
 
 
 
-int n ; 
-int a[maxn+3] ;
+
 
 void input(){
-    cin >> n ; 
-    FOR ( i , 1 , n ) cin >> a[i] ;
 }
 void solve() {
-    ll d = 0 ;
-    FOR ( i , 2 , n ) {
-        d += max ( a[i-1] - a[i] , 0 ) ;
-        
-        a[i] = max ( a[i-1] , a[i])  ;
+    ll n; cin >> n ;
+    if ( (n * ( n + 1 ) / 2 ) % 2 != 0 ) {
+        cout << "NO" << '\n' ;
+        exit( 0 ) ;
     }
-  
-    cout << d ;
+    cout << "YES" << '\n' ;
+    vector < int > v_1 , v_2 ;
+    ll S = 0 ;
+    ll MAX = n * ( n + 1 ) /4 ; 
+    // cout << MAX << '\n' ;
+    FORD ( i , n , 1 ) {
+        if ( S + i <= MAX ){
+            S += i ;
+            v_1.pb ( i ) ;
+        }
+        else { 
+            v_2.pb ( i ) ;
+        }
+    }
+    // cout << S << '\n' ;
+    cout << v_1.size() << '\n' ;
+    for (auto v : v_1 ) cout << v << ' ' ;
+    
+    cout << v_2.size() << '\n' ;
+    for (auto v : v_2 ) cout << v << ' ' ;
+
 }
 #define name "TASK" 
 int main(){

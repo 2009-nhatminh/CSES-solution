@@ -15,28 +15,28 @@ using namespace std ;
 #define ALL(a) (a).begin() , (a).end() 
 #define rep( i , a , b) for (int i = (a) ; i < (b) ; i ++ )
 #define ld long double
-const int maxn = 2 * 1e5 ;
+const int maxn = 1e3;
 #define debug 0
 #define oo (ll)(1e18)
 
 
 
-int n ; 
-int a[maxn+3] ;
+
 
 void input(){
-    cin >> n ; 
-    FOR ( i , 1 , n ) cin >> a[i] ;
+}
+static const int MOD = 1e9 +  7;
+ll mu ( ll a , int b ) {
+    if ( b == 0 ) return 1;
+    if ( b == 1 ) return a % MOD ;
+    a %= MOD ;
+    ll t = mu ( a , b >> 1 ) ;
+    if ( !(b & 1) ) return ( t * t ) % MOD ;
+    else return ( ( t * t ) % MOD * a ) % MOD ;
 }
 void solve() {
-    ll d = 0 ;
-    FOR ( i , 2 , n ) {
-        d += max ( a[i-1] - a[i] , 0 ) ;
-        
-        a[i] = max ( a[i-1] , a[i])  ;
-    }
-  
-    cout << d ;
+    int n ; cin >> n ;
+    cout << mu ( 2 , n )<< '\n' ;
 }
 #define name "TASK" 
 int main(){

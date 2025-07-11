@@ -20,23 +20,38 @@ const int maxn = 2 * 1e5 ;
 #define oo (ll)(1e18)
 
 
+int n , q ; 
+int ans[maxn +3 ] ;
+vector < int > G[maxn +3 ] ;
+set < int > s[maxn +3 ] ;
+int a[maxn +3 ] ;
 
-int n ; 
-int a[maxn+3] ;
+void dfs ( int u , int par ) {
+    s[u].insert ( a[u] ) ;
 
+    for (auto v : G[u]){
+        if ( v == par) continue; 
+        dfs ( v , u ) ;
+        if (s[u].size() < s[v].size()) swap ( s[u] , s[v] ) ;
+        for ( auto cnt : s[v]) s[u].insert ( cnt ) ; 
+    }
+    ans[u] = s[u].size() ;
+}
 void input(){
-    cin >> n ; 
+    // int n ; 
+    cin >> n ;
     FOR ( i , 1 , n ) cin >> a[i] ;
+    FOR ( i , 2 , n ) {
+        int u , v ; cin >> u >> v ;
+        G[u].pb ( v ) ;
+        G[v].pb ( u ) ;
+
+    }
 }
 void solve() {
-    ll d = 0 ;
-    FOR ( i , 2 , n ) {
-        d += max ( a[i-1] - a[i] , 0 ) ;
-        
-        a[i] = max ( a[i-1] , a[i])  ;
-    }
-  
-    cout << d ;
+    dfs ( 1 , -1 ) ;
+    FOR ( i , 1 , n )  cout << ans[i] << ' ' ;
+
 }
 #define name "TASK" 
 int main(){

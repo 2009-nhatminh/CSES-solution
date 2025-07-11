@@ -15,28 +15,31 @@ using namespace std ;
 #define ALL(a) (a).begin() , (a).end() 
 #define rep( i , a , b) for (int i = (a) ; i < (b) ; i ++ )
 #define ld long double
-const int maxn = 2 * 1e5 ;
+const int maxn = 2 *1e5 ;
 #define debug 0
 #define oo (ll)(1e18)
 
 
+int ans = 0 ;
+int d[maxn + 3 ] ; 
+vector < int > G[maxn + 3]  ;
+int n ;
+void dfs  (int u , int par ) {
+    d[u] = 1 ;
+    bool ok = 1 ;
 
-int n ; 
-int a[maxn+3] ;
-
-void input(){
-    cin >> n ; 
-    FOR ( i , 1 , n ) cin >> a[i] ;
-}
-void solve() {
-    ll d = 0 ;
-    FOR ( i , 2 , n ) {
-        d += max ( a[i-1] - a[i] , 0 ) ;
-        
-        a[i] = max ( a[i-1] , a[i])  ;
+    for (auto v : G[u]){
+        if ( v == par ) continue; 
+        dfs ( v , u ) ;
+        d[u] += d[v] ;
+        if (d[v] > n / 2 ) ok = 0 ; 
     }
-  
-    cout << d ;
+    if ( n - d[u] > n / 2 ) ok = 0 ;
+    if (ok) {
+            // ans = u ;
+        cout << u ;
+        exit ( 0 ) ;
+    }
 }
 #define name "TASK" 
 int main(){
@@ -45,8 +48,14 @@ int main(){
         freopen (name".INP","r",stdin);
         freopen (name".OUT","w",stdout);
     }
-    input() ;
-    solve() ;
+    cin >> n ; 
+    for ( int i = 2 ; i <= n ; i++ ) {
+        int u , v ; cin >> u >> v ;
+        G[u].pb ( v ) ;
+        G[v].pb ( u ) ;
+    }
+    dfs ( 1 , -1 ) ;
+
     cerr << "\nTIME: = " << (1.0*clock())/CLOCKS_PER_SEC << '\n';
     return(0) ;
 }

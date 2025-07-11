@@ -15,28 +15,34 @@ using namespace std ;
 #define ALL(a) (a).begin() , (a).end() 
 #define rep( i , a , b) for (int i = (a) ; i < (b) ; i ++ )
 #define ld long double
-const int maxn = 2 * 1e5 ;
+const int maxn = 1e3;
 #define debug 0
 #define oo (ll)(1e18)
 
 
 
-int n ; 
-int a[maxn+3] ;
+
 
 void input(){
-    cin >> n ; 
-    FOR ( i , 1 , n ) cin >> a[i] ;
 }
-void solve() {
-    ll d = 0 ;
-    FOR ( i , 2 , n ) {
-        d += max ( a[i-1] - a[i] , 0 ) ;
-        
-        a[i] = max ( a[i-1] , a[i])  ;
-    }
-  
-    cout << d ;
+ll ans;
+void solve(){
+    ll x,y; cin >> y >> x;
+    ll cc=max(x,y);
+        ll dt=cc*cc;
+        ll k = (cc)*(cc-1)+1;
+        //cout << k << ' ';
+        if (x==y){cout << x*x-(x-1) << '\n'; return ;}
+        else if (x<y){
+            if (!(y&1)) k+=(y-x);
+            else k-=(y-x);
+        }
+        else {
+            if (x&1) k+=(x-y);
+            else k-=(x-y);
+        }
+        cout << k ; 
+        cout << '\n';
 }
 #define name "TASK" 
 int main(){
@@ -46,6 +52,8 @@ int main(){
         freopen (name".OUT","w",stdout);
     }
     input() ;
+    int t ; cin >> t ;
+    while ( t -- ) 
     solve() ;
     cerr << "\nTIME: = " << (1.0*clock())/CLOCKS_PER_SEC << '\n';
     return(0) ;
