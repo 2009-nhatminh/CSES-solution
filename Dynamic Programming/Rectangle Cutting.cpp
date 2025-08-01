@@ -1,18 +1,18 @@
 #include <bits/stdc++.h>
-using namespace std ; 
+using namespace std ;
 
 
-#define ll long long 
+#define ll long long
 #define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#define fir first 
-#define sec second 
+#define fir first
+#define sec second
 #define piint pair < int , int >
-#define FOR( i , a , b ) for (int i = (a) , _b = (b) ; i <= _b ; i ++ )  
-#define FORD( i , a , b ) for (int i = (a) , _b = (b) ; i >= _b ; i -- )  
+#define FOR( i , a , b ) for (int i = (a) , _b = (b) ; i <= _b ; i ++ )
+#define FORD( i , a , b ) for (int i = (a) , _b = (b) ; i >= _b ; i -- )
 
-#define pb push_back 
-#define str string 
-#define ALL(a) (a).begin() , (a).end() 
+#define pb push_back
+#define str string
+#define ALL(a) (a).begin() , (a).end()
 #define rep( i , a , b) for (int i = (a) ; i < (b) ; i ++ )
 #define ld long double
 const int maxn = 1e3;
@@ -21,16 +21,35 @@ const int maxn = 1e3;
 
 
 
-
+int a , b ;
+int dp[503][503] ;
 
 void input(){
+    int n , m ;
+
+    cin >> n >> m ;
+    FOR ( i , 1 , n ) {
+        FOR ( j , 1 , m ) {
+
+            if ( i == j ) { dp[i][j] = 0 ; continue ; }
+            else dp[i][j] = 1e9 ;
+
+            FOR ( k , 1 , i / 2 ) {
+                dp[i][j] = min ( dp[k][j] + dp[i-k][j] + 1 , dp[i][j] ) ;
+            }
+            FOR ( k , 1 , j / 2 ) {
+                dp[i][j] = min ( dp[i][j-k] + dp[i][k] + 1 , dp[i][j] ) ;
+            }
+        }
+    }
+    cout << dp[n][m] ;
 }
 void solve() {
 
 }
-#define name "TASK" 
+#define name "TASK"
 int main(){
-    fast 
+    fast
     if(fopen(name".INP","r")) {
         freopen (name".INP","r",stdin);
         freopen (name".OUT","w",stdout);
