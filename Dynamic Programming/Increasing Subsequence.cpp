@@ -15,34 +15,22 @@ using namespace std ;
 #define ALL(a) (a).begin() , (a).end()
 #define rep( i , a , b) for (int i = (a) ; i < (b) ; i ++ )
 #define ld long double
-const int maxn = 1e3;
+const int maxn = 2 * 1e5 ;
 #define debug 0
 #define oo (ll)(1e18)
  
- 
- 
-int a , b ;
-int dp[503][503] ;
+int b[maxn + 3] ;
  
 void input(){
-    int n , m ;
- 
-    cin >> n >> m ;
-    FOR ( i , 1 , n ) {
-        FOR ( j , 1 , m ) {
- 
-            if ( i == j ) { dp[i][j] = 0 ; continue ; }
-            else dp[i][j] = 1e9 ;
- 
-            FOR ( k , 1 , i / 2 ) {
-                dp[i][j] = min ( dp[k][j] + dp[i-k][j] + 1 , dp[i][j] ) ;
-            }
-            FOR ( k , 1 , j / 2 ) {
-                dp[i][j] = min ( dp[i][j-k] + dp[i][k] + 1 , dp[i][j] ) ;
-            }
-        }
+    int n ; cin >> n ;
+    int m = 0 ;
+    FOR ( i ,1  , n ){
+         int x ; cin >>x ;
+         int id = lower_bound ( b + 1 ,b + m + 1 , x) - b ;
+         b[id] = x ;
+         m = max ( m , id ) ;
     }
-    cout << dp[n][m] ;
+    cout << m ;
 }
 void solve() {
  
