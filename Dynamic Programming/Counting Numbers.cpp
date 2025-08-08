@@ -32,8 +32,10 @@ ll dfs ( int id , int ok_l , int ok_r , int last ){
     low = max ( (char)(( id == 0 )? '1' : '0') , low );
     ll res = 0 ;
     FOR ( i , low , high ){
+
         if ( i == last ) continue ;
         res += dfs ( id + 1 , ok_l | ( i > a[id]) , ok_r | ( i < b[id] ) , i ) ;
+        // cout << res << ' ';
     }
     return dp[id][ok_l][ok_r][last] = res; 
 }
@@ -41,18 +43,20 @@ void input(){
     cin >> a >> b ;
     ll res = 0;
     // str old = a ;
+    bool need_plus = 0 ;
+    if ( a == "0") need_plus = 1;
     FOR ( len , a.size(), b.size()){
         sized = len ;
         // a = old ;
 
         memset ( dp , -1 , sizeof ( dp) ) ;
-        while ( a.size()< len ) a = "0" + a;
+        while ( a.size() < len ) a = "0" + a;
         // cout << dfs ( 0, 0 , 0 , 0 ) ;
         if ( len < b.size() ) res += dfs ( 0 , 0 , 1 , 0 ) ;
         else res += dfs ( 0 , 0 , 0 , 0  ); 
         // cout << dfs ( 0 , 0 , 0 , 0 ) ;
     }
-    cout << res ;
+    cout << res + need_plus;
 }
 void solve() {
     
